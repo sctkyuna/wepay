@@ -2,6 +2,7 @@ import os
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
+import pdb
 
 # create our little application :)
 app = Flask(__name__)
@@ -39,6 +40,7 @@ def close_db(error):
         g.sqlite_db.close()
         
 def init_db():
+    pdb.set_trace()
     with app.app_context():
         db = get_db()
         with app.open_resource('schema.sql', mode='r') as f:
