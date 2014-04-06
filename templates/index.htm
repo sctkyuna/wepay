@@ -39,7 +39,7 @@
 
           <div class="inner cover">
             <h1 class="cover-heading">Name your event.</h1> <br>
-			<form action="/add">
+			<form action="/new">
 				<input type="text" placeholder="Enter event name" name="eventName" required>
 				<input type="text" placeholder="Notes" name="details">
 				<input type="submit" value="Add" class="btn btn-lg btn-default">
@@ -53,6 +53,7 @@
          <div class="inner cover">
             <h1 class="cover-heading">Find your event.</h1> <br>
 			<form action="/view">
+				<p class='lead' id="error"> {{error}} </p>
 				<input type="text" placeholder="Enter event code" name="eventID" required>
 				<input type="submit" value="Find" class="btn btn-lg btn-default">
 			</form>

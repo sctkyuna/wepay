@@ -37,8 +37,14 @@
             </div>
           </div>
 
+		  <div class="inner cover">
+            <h1 class="cover-heading">Your eventID is {{ eventID }}.</h1>
+		 	<p class="lead"> Don't forget to copy/write it down! </p>
+		  </div>
+		  <br>
+
           <div class="inner cover">
-            <h1 class="cover-heading">Debt table for {{eventName.name}}</h1>
+            <h1 class="cover-heading">Debt table for {{eventName}}</h1>
             <p class="lead">
               
 				<table id="hor-minimalist-a" summary="Employee Pay Sheet">
@@ -52,9 +58,9 @@
 				<tbody>
 					{% for i in entries %}
 					<tr>
-						<td>{{ i['payerUID'] }}</td>
-						<td>{{ i['recipUID'] }}</td>
-						<td>{{ i['amount'] }} </td>
+						<td>{{ i[0] }} </td>
+						<td>{{ i[1] }} </td>
+						<td>{{ i[2] }} </td>
 					</tr>
 					{%- endfor %}
 				</tbody>

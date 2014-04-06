@@ -22,9 +22,7 @@ create table trans (
 drop table if exists users;
 create table users (
 	ID integer primary key autoincrement,
-	firstname text not null,
-	lastname text not null,
-	email text,
+	name text not null,
 	phone text
 );
 
