@@ -1,6 +1,8 @@
+PRAGMA foreign_keys = ON;
+
 drop table if exists event;
 create table event (
-  ID integer primary key autoincrement,
+  ID text primary key,
   name text not null,
   details text not null
 );
@@ -8,7 +10,7 @@ create table event (
 drop table if exists trans;
 create table trans (
   ID integer primary key autoincrement,
-  eventID integer,
+  eventID text,
   payerUID integer not null,
   recipUID integer not null,
   amount real,

@@ -2,7 +2,11 @@ import os
 import sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
+import string
+import random
 import pdb
+def generateID(size=6, chars=string.ascii_uppercase + string.digits):
+	return ''.join(random.choice(chars) for _ in range(size))
 
 # create our little application :)
 app = Flask(__name__)
@@ -40,16 +44,33 @@ def close_db(error):
         g.sqlite_db.close()
         
 def init_db():
-    pdb.set_trace()
     with app.app_context():
         db = get_db()
         with app.open_resource('schema.sql', mode='r') as f:
             db.cursor().executescript(f.read())
         db.commit()
 
-@app.route('/')
-def hello_world():
-    return 'hi world'
+# if event already exists
+@app.route('/view', methods=['POST', 'GET'])
+def view_event():
+	db = get_db()
+	eventID = request.args['eventID']
+	cur = db.execute("select payerUID, recipUID, amount from trans where eventID=?", [eventID])
+	entries = cur.fetchall()
+	event = db.execute("select name from event where ID=?", [eventID])
+	eventName = event.fetchall()
+	
+	return render_template('viewevent.htm', eventName=eventName, entries=entries)
+
+
+# if making new event
+@app.route('/add', methods=['GET'])
+def make_find_event():
+	db = get_db()
+	eventID = generateID() # generates random ID that doesn't exist in db
+	db.execute('insert into event values (?, ?, ?)', [eventID, request.args["eventName"], request.args['details']])
+	db.commit()
+	return render_template('addpeople.htm', eventID=eventID)
 
 @app.route('/db')   
 def dbtest():
@@ -57,7 +78,9 @@ def dbtest():
     cursor = db.cursor()
     init_db()
         
-    
+@app.route('/')
+def main():
+	return render_template('index.htm') 
     
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
